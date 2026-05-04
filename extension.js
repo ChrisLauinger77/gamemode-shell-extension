@@ -110,18 +110,18 @@ const Indicator = GObject.registerClass(
         _("GameMode is Enabled"),
         this._settings.get_boolean("show-launch-notification")
       );
-      this._notificationLaunchToggle.connect("toggled", (item, value) => {
+      this._notificationLaunchToggle.connectObject("toggled", (item, value) => {
         this._settings.set_boolean("show-launch-notification", value);
-      });
+      }, this);
       notificationSection.menu.addMenuItem(this._notificationLaunchToggle);
 
       this._notificationCloseToggle = new PopupMenu.PopupSwitchMenuItem(
         _("GameMode is Disabled"),
         this._settings.get_boolean("show-close-notification")
       );
-      this._notificationCloseToggle.connect("toggled", (item, value) => {
+      this._notificationCloseToggle.connectObject("toggled", (item, value) => {
         this._settings.set_boolean("show-close-notification", value);
-      });
+      }, this);
       notificationSection.menu.addMenuItem(this._notificationCloseToggle);
 
       notificationSection.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -130,9 +130,9 @@ const Indicator = GObject.registerClass(
         _("Enable Do Not Disturb Mode"),
         this._settings.get_boolean("enable-do-not-disturb")
       );
-      this._doNotDisturbToggle.connect("toggled", (item, value) => {
+      this._doNotDisturbToggle.connectObject("toggled", (item, value) => {
         this._settings.set_boolean("enable-do-not-disturb", value);
-      });
+      }, this);
       notificationSection.menu.addMenuItem(this._doNotDisturbToggle);
     }
 
@@ -146,16 +146,16 @@ const Indicator = GObject.registerClass(
         _("Show Icon Only When Active"),
         this._settings.get_boolean("show-icon-only-when-active")
       );
-      this._iconVisibilityToggle.connect("toggled", (item, value) => {
+      this._iconVisibilityToggle.connectObject("toggled", (item, value) => {
         this._settings.set_boolean("show-icon-only-when-active", value);
-      });
+      }, this);
       visibilitySection.menu.addMenuItem(this._iconVisibilityToggle);
 
       const colorSettingsItem = new PopupMenu.PopupMenuItem(_("Color Settings"));
       this.menu.addMenuItem(colorSettingsItem);
-      colorSettingsItem.connect('activate', () => {
+      colorSettingsItem.connectObject('activate', () => {
         this._extension.openPreferences();
-      });
+      }, this);
     }
 
     _addPreferencesButton() {
@@ -174,12 +174,12 @@ const Indicator = GObject.registerClass(
       this.menu._getMenuItems().forEach((item) => {
         if (item !== unavailableItem) item.setSensitive(false);
       });
-      unavailableItem.connect("activate", () => {
+      unavailableItem.connectObject("activate", () => {
         Gio.app_info_launch_default_for_uri(
           "https://github.com/FeralInteractive/gamemode",
           null
         );
-      });
+      }, this);
     }
 
     _handleStatusChange() {
