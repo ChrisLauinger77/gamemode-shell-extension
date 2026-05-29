@@ -35,6 +35,9 @@ install_data(
     install_dir: extensiondir
 )
 
+# Install locale files
+subdir('po')
+
 # Install schema
 install_data(
     schema_file,
