@@ -1,6 +1,6 @@
 project('gamemode-extension',
     version: '1.0',
-    meson_version: '>= 0.46.0',
+    meson_version: '>= 0.57.0',
     license: 'LGPL-2.1'
 )
 
@@ -42,10 +42,7 @@ install_data(
 )
 
 # Compile schema
-meson.add_install_script(
-  'scripts/compile-schema.sh',
-  join_paths(prefix, schemadir)
-)
+gnome.post_install(glib_compile_schemas: true)
 
 # Build completion message
 message('Project version: @0@'.format(meson.project_version()))
